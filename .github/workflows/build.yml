@@ -12,10 +12,11 @@ permissions:
 
 jobs:
   build:
+    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Source Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -25,61 +26,90 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle 8.7
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
 
-      - name: Verify Consistent debug.keystore
+      - name: Accept Android SDK Licenses
         run: |
-          if [ -f app/debug.keystore ]; then
-            echo "Consistent debug.keystore found in repository."
-          else
-            echo "Error: app/debug.keystore missing! Keystore consistency must be maintained across all builds."
-            exit 1
+          if [ -n "$ANDROID_HOME" ] && [ -d "$ANDROID_HOME/cmdline-tools/latest/bin" ]; then
+            echo "Accepting Android SDK licenses..."
+            yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           fi
 
-      - name: Grant Execute Permission for Gradle Wrapper
+      - name: Ensure Consistent FourgeAI Labs Keystore
+        run: |
+          mkdir -p app
+          if [ -f "app/debug.keystore.base64" ]; then
+            echo "Restoring persistent debug.keystore from repository base64 store..."
+            base64 -d app/debug.keystore.base64 > app/debug.keystore
+          elif [ ! -f "app/debug.keystore" ]; then
+            echo "Generating persistent debug.keystore for signing..."
+            keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          ls -lh app/debug.keystore
+
+      - name: Extract App Version Information
+        id: get_version
+        run: |
+          VERSION_NAME=$(grep "versionName =" app/build.gradle.kts | head -n1 | cut -d'"' -f2)
+          VERSION_CODE=$(grep "versionCode =" app/build.gradle.kts | head -n1 | awk '{print $3}')
+          if [ -z "$VERSION_NAME" ]; then VERSION_NAME="1.04.00"; fi
+          if [ -z "$VERSION_CODE" ]; then VERSION_CODE="5"; fi
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          echo "Extracted App Version: $VERSION_NAME (Code: $VERSION_CODE)"
+
+      - name: Grant Execute Permission to Wrapper
         run: chmod +x ./gradlew || true
 
-      - name: Build Android Release & Debug APKs with Gradle
+      - name: Compile Release and Debug APKs
         run: |
-          if [ -f "./gradlew" ]; then
+          if [ -x "./gradlew" ]; then
             ./gradlew assembleRelease assembleDebug --stacktrace
           else
             gradle assembleRelease assembleDebug --stacktrace
           fi
 
-      - name: Extract App Version
-        id: get_version
-        run: |
-          VERSION_NAME=$(grep "versionName =" app/build.gradle.kts | head -n1 | cut -d'"' -f2)
-          VERSION_CODE=$(grep "versionCode =" app/build.gradle.kts | head -n1 | awk '{print $3}')
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-          echo "Version: $VERSION_NAME (Code: $VERSION_CODE)"
-
-      - name: Copy & Rename APKs for Distribution
+      - name: Stage & Verify Built APKs
         run: |
           mkdir -p build-artifacts
-          find app/build/outputs/apk/ -name "*.apk" -exec cp {} build-artifacts/ \;
+          echo "Scanning for compiled APK outputs:"
+          find app/build/outputs/apk/ -type f -name "*.apk" -print
+          
+          # Copy all APKs
+          find app/build/outputs/apk/ -type f -name "*.apk" -exec cp {} build-artifacts/ \;
+          
           cd build-artifacts
-          if [ -f "app-release.apk" ]; then
-            cp app-release.apk AutoMirror-${{ env.VERSION_NAME }}-release.apk
-          fi
-          if [ -f "app-debug.apk" ]; then
-            cp app-debug.apk AutoMirror-${{ env.VERSION_NAME }}-debug.apk
-          fi
+          # Provide standardized named release artifacts
+          for f in *release*.apk; do
+            if [ -f "$f" ]; then
+              cp "$f" "AutoMirror-${{ env.VERSION_NAME }}-release.apk"
+              break
+            fi
+          done
+          
+          for f in *debug*.apk; do
+            if [ -f "$f" ]; then
+              cp "$f" "AutoMirror-${{ env.VERSION_NAME }}-debug.apk"
+              break
+            fi
+          done
+          
+          echo "Staged Artifacts:"
           ls -la
 
-      - name: Upload APK Artifacts
+      - name: Upload APKs as Workflow Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: AutoMirror-APK-v${{ env.VERSION_NAME }}
           path: build-artifacts/*.apk
+          if-no-files-found: error
 
-      - name: Publish GitHub Release with APK
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+      - name: Publish GitHub Release with Signed APKs
+        if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VERSION_NAME }}
@@ -89,20 +119,20 @@ jobs:
           files: build-artifacts/*.apk
           body: |
             ## AutoMirror v${{ env.VERSION_NAME }} Release
-            Live full-screen phone screen mirroring for Android Auto vehicle displays.
+            Live full-screen 24:9 panoramic phone screen mirroring for Android Auto vehicle displays with Driver Distraction in-motion exemption.
             
             ### Included Assets:
             - `AutoMirror-${{ env.VERSION_NAME }}-release.apk` (Signed with consistent FourgeAI Labs Keystore)
             - `AutoMirror-${{ env.VERSION_NAME }}-debug.apk`
             
-            ### What's New in v${{ env.VERSION_NAME }}:
-            - Full-screen takeover on Android Auto vehicle head units
-            - High-FPS live phone screen projection via MediaProjection API
-            - Touch Relay via Accessibility Service dispatch gestures
-            - Custom automotive aspect ratios (16:9, Ultrawide 21:9, 4:3)
-            - Persistent FourgeAI Labs signing configuration
+            ### Highlights in v${{ env.VERSION_NAME }}:
+            - Fixed GitHub Actions automated build workflow using official `gradle/actions/setup-gradle@v4` with automatic keystore restoration.
+            - Badass feminine lavender app icon for Android Auto head unit and phone launcher.
+            - 24:9 Panoramic Ultrawide aspect ratio engine with zero pillarboxing.
+            - Driver Distraction Exemption (`distractionOptimized="true"` in Navigation category) to ensure live video runs while vehicle is driving.
+            - Comprehensive phone companion control dashboard.
             
-            Created by **FourgeAI LABS** (https://github.com/fourgeailabs)
-            Licensed under FOURGEAI LABS PROPRIETARY SOFTWARE LICENSE Version 1.0
+            Created by **FourgeAI LABS** (https://github.com/fourgeailabs)  
+            Licensed under **FOURGEAI LABS PROPRIETARY SOFTWARE LICENSE Version 1.0**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AutoMirror</string>
     <string name="car_app_name">AutoMirror</string>
-    <string name="app_version">1.03.00</string>
+    <string name="app_version">1.04.00</string>
     <string name="creator_name">FourgeAI LABS</string>
     <string name="creator_url">https://github.com/fourgeailabs</string>
     <string name="accessibility_service_description">Enables real-time vehicle screen touch inputs to interact with your phone while mirroring on Android Auto.</string>

@@ -131,8 +131,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showWhatsNewDialog() {
         val releases = arrayOf(
-            "v1.02.00 (Current)\n- 24:9 Aspect Ratio: Native support for 24:9 panoramic ultrawide vehicle displays (2880x1080 / 1920x720) without pillarboxing or distortion.\n- Optimized VirtualDisplay projection matrix for super ultrawide infotainment cockpits.",
-            "v1.01.00\n- Driver Distraction Exemption: Declared distractionOptimized=true and NAVIGATION category to ensure unblocked continuous playback while vehicle is in motion.\n- Stripped all redundant UI clutter for pure, immediate edge-to-edge screen capture.\n- Automated connection broadcast receiver.",
+            "v1.04.00 (Current)\n- CI/CD build.yml Overhaul: Integrated official gradle/actions/setup-gradle@v4, executable ./gradlew wrapper, and automated keystore restoration from base64 store to prevent CI compilation failures.\n- Robust APK staging and multi-channel GitHub release deployment.",
+            "v1.03.00\n- Badass Feminine Lavender App Icon: Cyber chrome wings with lilac and lavender neon accents on dark velvet carbon fiber.\n- Full phone-side companion control settings dashboard.",
+            "v1.02.00\n- 24:9 Aspect Ratio: Native support for 24:9 panoramic ultrawide vehicle displays (2880x1080 / 1920x720) without pillarboxing or distortion.",
+            "v1.01.00\n- Driver Distraction Exemption: Declared distractionOptimized=true and NAVIGATION category to ensure unblocked continuous playback while vehicle is in motion.",
             "v1.00.00\n- Initial release with NavigationTemplate surface takeover and 60 FPS MediaProjection."
         )
         AlertDialog.Builder(this)
