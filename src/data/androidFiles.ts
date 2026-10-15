@@ -184,8 +184,8 @@ android {
         applicationId = "com.fourgeailabs.automirror"
         minSdk = 26
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.04.00"
+        versionCode = 6
+        versionName = "1.05.00"
     }
 
     signingConfigs {

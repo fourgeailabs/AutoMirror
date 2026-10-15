@@ -1,13 +1,25 @@
 import { ReleaseNote } from '../types';
 
-export const CURRENT_VERSION = '1.04.00';
-export const CURRENT_VERSION_CODE = 5;
+export const CURRENT_VERSION = '1.05.00';
+export const CURRENT_VERSION_CODE = 6;
 export const CREATOR_NAME = 'FourgeAI LABS';
 export const CREATOR_GITHUB_URL = 'https://github.com/fourgeailabs';
 export const APP_ID = 'com.fourgeailabs.automirror';
 export const APP_REPO_URL = 'https://github.com/fourgeailabs/AutoMirror';
 
 export const HISTORICAL_RELEASES: ReleaseNote[] = [
+  {
+    version: '1.05.00',
+    date: 'October 2026',
+    title: 'Gradle Properties AndroidX Configuration & Dependency Artifact Resolution',
+    highlights: [
+      'Created gradle.properties with android.useAndroidX=true to resolve dataBindingMergeDependencyArtifactsRelease / releaseRuntimeClasspath errors.',
+      'Enabled android.nonTransitiveRClass=true for optimized resource compilation.',
+      'Configured JVM memory flags (-Xmx2048m -Dfile.encoding=UTF-8) for stability on GitHub Actions CI runners.',
+      'Incremented version code to 6 and version name to 1.05.00 per release rules.'
+    ],
+    notes: 'Crucial build fix resolving AndroidX dependency merge failures during GitHub Actions APK compilation.'
+  },
   {
     version: '1.04.00',
     date: 'October 2026',
@@ -16,8 +28,7 @@ export const HISTORICAL_RELEASES: ReleaseNote[] = [
       'Fixed GitHub Actions workflow (.github/workflows/build.yml) using official gradle/actions/setup-gradle@v4 with Gradle 8.7.',
       'Automated keystore restoration from app/debug.keystore.base64 to prevent CI signature failures.',
       'Added executable ./gradlew wrapper script for deterministic compilation on Linux runners.',
-      'Hardened release artifact staging to reliably package and publish AutoMirror-1.04.00-release.apk to GitHub Releases.',
-      'Bumping version code to 5 and version name to 1.04.00 per release rules.'
+      'Hardened release artifact staging to reliably package and publish AutoMirror-1.04.00-release.apk to GitHub Releases.'
     ],
     notes: 'Major CI/CD fix resolving GitHub Actions workflow execution, ensuring automated, repeatable APK compilation and release deployment.'
   },

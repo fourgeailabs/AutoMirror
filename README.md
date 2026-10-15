@@ -3,7 +3,7 @@
 > **Full-Screen Live Phone Mirroring & Touch Relay for Android Auto Vehicle Head Units**  
 > Developed by **[FourgeAI LABS](https://github.com/fourgeailabs)**  
 > **Application ID:** `com.fourgeailabs.automirror`  
-> **Current Version:** `1.04.00` (VersionCode: `5`)  
+> **Current Version:** `1.05.00` (VersionCode: `6`)  
 > **License:** FOURGEAI LABS PROPRIETARY SOFTWARE LICENSE Version 1.0  
 
 ---
@@ -63,17 +63,18 @@ The phone side contains comprehensive control settings menus and driving configu
 8. **What's New Menu**:
    - Single-open accordion dropdown displaying the latest update and historical release logs.
 9. **About Section**:
-   - Links to creator **FourgeAI LABS** (`https://github.com/fourgeailabs`), version 1.04.00, package `com.fourgeailabs.automirror`, and GitHub repository link.
+   - Links to creator **FourgeAI LABS** (`https://github.com/fourgeailabs`), version 1.05.00, package `com.fourgeailabs.automirror`, and GitHub repository link.
 
 ---
 
-## CI/CD Pipeline & GitHub Actions Build (v1.04.00 Fixes)
+## CI/CD Pipeline & Gradle Configuration (v1.05.00 Fixes)
 
-The `.github/workflows/build.yml` workflow has been resolved and hardened:
+The build configuration and GitHub Actions workflow have been fully hardened:
+- **`gradle.properties` AndroidX Flag**: Added `android.useAndroidX=true` and `android.nonTransitiveRClass=true` to resolve `dataBindingMergeDependencyArtifactsRelease` and `releaseRuntimeClasspath` dependency merging.
 - **Official Gradle Setup (`gradle/actions/setup-gradle@v4`)**: Directly provisions Gradle 8.7, sets up runner PATH, and manages build caches.
 - **Executable Wrapper Script (`gradlew`)**: Added resilient wrapper script ensuring standard Gradle command resolution.
 - **Persistent Keystore Restoration**: Implemented automatic base64 decode and fallback generation for `app/debug.keystore` ensuring signature consistency across all release builds without failing.
-- **Automated Multi-Channel Release**: Compiles and signs both `AutoMirror-1.04.00-release.apk` and `AutoMirror-1.04.00-debug.apk`, stages them to workflow artifacts, and deploys them to GitHub Releases.
+- **Automated Multi-Channel Release**: Compiles and signs both `AutoMirror-1.05.00-release.apk` and `AutoMirror-1.05.00-debug.apk`, stages them to workflow artifacts, and deploys them to GitHub Releases.
 
 ---
 
@@ -115,7 +116,7 @@ The `.github/workflows/build.yml` workflow has been resolved and hardened:
 Because Google restricts 3rd-party screen mirroring apps on Google Play, install the APK using one of the established methods:
 
 ### Method 1: Using KingInstaller or AAAD (Recommended for Non-Root)
-1. Download the latest release `AutoMirror-1.04.00-release.apk` from the [Releases](https://github.com/fourgeailabs) section.
+1. Download the latest release `AutoMirror-1.05.00-release.apk` from the [Releases](https://github.com/fourgeailabs) section.
 2. Install via **KingInstaller** or **AAAD** (Android Auto Apps Downloader) with the package installer flag enabled.
 3. Open **Android Auto Settings** on your phone:
    - Tap **Version** 10 times to enable **Developer Settings**.
@@ -133,24 +134,24 @@ Because Google restricts 3rd-party screen mirroring apps on Google Play, install
 
 ## Release History & What's New
 
-### Version 1.04.00 (Current Production Release)
-- **Resolved GitHub Actions CI/CD (`build.yml`)**: Integrated official `gradle/actions/setup-gradle@v4` with Gradle 8.7, executable `./gradlew` wrapper script, and automated `app/debug.keystore.base64` decoding to guarantee zero-failure APK compilation.
-- **Automated Artifact Staging**: Hardened release step to reliably capture and publish `AutoMirror-1.04.00-release.apk` and debug builds to GitHub Releases.
-- **Incremented Versioning**: Updated `versionCode` to 5 and `versionName` to `1.04.00`.
+### Version 1.05.00 (Current Production Release)
+- **Resolved AndroidX Gradle Properties (`gradle.properties`)**: Created `gradle.properties` with `android.useAndroidX=true` and `android.nonTransitiveRClass=true` to resolve `dataBindingMergeDependencyArtifactsRelease` dependency merge errors.
+- **Optimized JVM Settings**: Allocated 2048MB heap with UTF-8 encoding for GitHub Actions runner stability.
+- **Incremented Versioning**: Updated `versionCode` to 6 and `versionName` to `1.05.00`.
+
+### Version 1.04.00
+- **Resolved GitHub Actions CI/CD (`build.yml`)**: Integrated official `gradle/actions/setup-gradle@v4` with Gradle 8.7, executable `./gradlew` wrapper script, and automated `app/debug.keystore.base64` decoding.
 
 ### Version 1.03.00
 - **Badass Feminine Lavender App Icon**: Added custom chrome cyber wings and violet neon emblem vector icon for Android Auto head unit and phone launcher.
 - **Phone Companion Control Center**: Added full control settings menus on the phone side (video quality, 24:9 aspect ratio, touch relay, audio pass-through, wake lock, dimming).
-- **Lavender Aesthetic Theming**: Styled phone dashboard with velvet dark surfaces, glowing lavender accents, and high-contrast typography.
 
 ### Version 1.02.00
 - **24:9 Aspect Ratio Support**: Added native support for 24:9 super ultrawide automotive displays (2880x1080 / 1920x720 / 3840x1440 panoramic cockpits) with edge-to-edge projection and zero pillarboxing.
-- **Surface Matrix Alignment**: Configured `VirtualDisplay` to dynamically adapt to 24:9 aspect geometry.
 
 ### Version 1.01.00
 - **Driver Distraction Exemption**: Declared `distractionOptimized="true"` and categorized under `androidx.car.app.category.NAVIGATION`, ensuring the stream continues uninterrupted while the vehicle is in motion (driving at speed).
 - **Stripped Redundant UI Clutter**: Removed extraneous buttons, secondary template layers, and menus from the automotive projection surface for clean, 100% full-screen screen capture.
-- **Direct 1-Tap Trigger**: Streamlined phone companion UI to directly initiate and manage screen projection without distraction.
 
 ### Version 1.00.00
 - **Full-Screen Takeover**: Native `NavigationTemplate` surface pipeline providing edge-to-edge mirroring without bezel cutoffs.
