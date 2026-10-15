@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <!-- Dark Lavender Velvet Background -->
+    <path
+        android:fillColor="#0D0417"
+        android:pathData="M112,0 L400,0 A112,112 0,0,1 512,112 L512,400 A112,112 0,0,1 400,512 L112,512 A112,112 0,0,1 0,400 L0,112 A112,112 0,0,1 112,0 Z" />
+
+    <!-- Outer Lavender Border -->
+    <path
+        android:strokeColor="#C084FC"
+        android:strokeWidth="6"
+        android:pathData="M112,16 L400,16 A96,96 0,0,1 496,112 L496,400 A96,96 0,0,1 400,496 L112,496 A96,96 0,0,1 16,400 L16,112 A96,96 0,0,1 112,16 Z" />
+
+    <!-- Badass Left Cyber Wing -->
+    <path
+        android:fillColor="#9333EA"
+        android:pathData="M256,220 L110,130 L70,185 L170,245 L85,275 L115,325 L210,295 L140,365 L185,395 L256,310 Z" />
+
+    <!-- Badass Right Cyber Wing -->
+    <path
+        android:fillColor="#9333EA"
+        android:pathData="M256,220 L402,130 L442,185 L342,245 L427,275 L397,325 L302,295 L372,365 L327,395 L256,310 Z" />
+
+    <!-- Central Diamond Automotive Mirror Shield -->
+    <path
+        android:fillColor="#180A29"
+        android:strokeColor="#D8B4FE"
+        android:strokeWidth="8"
+        android:pathData="M256,95 L345,230 L256,415 L167,230 Z" />
+
+    <!-- Inner Lavender Prism Core -->
+    <path
+        android:fillColor="#C084FC"
+        android:pathData="M256,128 L320,230 L256,375 L192,230 Z" />
+
+    <!-- Mirror Emblem Crest -->
+    <path
+        android:fillColor="#FAF5FF"
+        android:pathData="M226,200 L256,242 L286,200 L300,265 L282,265 L270,225 L256,246 L242,225 L230,265 L212,265 Z" />
+</vector>

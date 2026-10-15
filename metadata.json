@@ -1,0 +1,10 @@
+{
+  "name": "AutoMirror for Android Auto",
+  "description": "Full-screen live phone mirroring and touch relay app for Android Auto vehicle displays with ultra-low latency, custom automotive aspect ratios, and full display takeover.",
+  "requestFramePermissions": [
+    "display-capture"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

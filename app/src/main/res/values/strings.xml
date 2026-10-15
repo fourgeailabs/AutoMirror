@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AutoMirror</string>
+    <string name="car_app_name">AutoMirror</string>
+    <string name="app_version">1.03.00</string>
+    <string name="creator_name">FourgeAI LABS</string>
+    <string name="creator_url">https://github.com/fourgeailabs</string>
+    <string name="accessibility_service_description">Enables real-time vehicle screen touch inputs to interact with your phone while mirroring on Android Auto.</string>
+    <string name="notification_channel_name">AutoMirror Screen Streaming</string>
+    <string name="notification_channel_desc">Active foreground service notification during Android Auto mirroring.</string>
+    <string name="notification_title">AutoMirror Active</string>
+    <string name="notification_text">Live phone screen capture streaming to Android Auto display.</string>
+</resources>

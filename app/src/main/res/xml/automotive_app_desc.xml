@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<automotiveApp>
+    <!-- Declares support for Android Auto navigation surface and media templates -->
+    <uses name="navigation" />
+    <uses name="media" />
+</automotiveApp>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180a29" />
+      <stop offset="50%" stop-color="#0c0416" />
+      <stop offset="100%" stop-color="#05010a" />
+    </linearGradient>
+
+    <!-- Metallic Lavender Gradient -->
+    <linearGradient id="lavenderMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3E8FF" />
+      <stop offset="25%" stop-color="#D8B4FE" />
+      <stop offset="60%" stop-color="#A855F7" />
+      <stop offset="85%" stop-color="#7E22CE" />
+      <stop offset="100%" stop-color="#C084FC" />
+    </linearGradient>
+
+    <!-- Badass Cyber Chrome Wing Gradient -->
+    <linearGradient id="chromeWing" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4C1D95" />
+      <stop offset="40%" stop-color="#9333EA" />
+      <stop offset="70%" stop-color="#C084FC" />
+      <stop offset="100%" stop-color="#FAF5FF" />
+    </linearGradient>
+
+    <!-- Neon Lavender Glow -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur1" />
+      <feGaussianBlur stdDeviation="28" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Dark Carbon Fiber Pattern -->
+    <pattern id="carbonPattern" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="#150a22" />
+      <rect x="6" y="6" width="6" height="6" fill="#150a22" />
+      <rect x="6" width="6" height="6" fill="#0d0417" />
+      <rect y="6" width="6" height="6" fill="#0d0417" />
+    </pattern>
+  </defs>
+
+  <!-- Base Rounded Automotive App Icon Squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect width="512" height="512" rx="112" fill="url(#carbonPattern)" opacity="0.65" />
+  
+  <!-- Outer Lavender Neon Halo Ring -->
+  <rect x="16" y="16" width="480" height="480" rx="98" fill="none" stroke="url(#lavenderMetal)" stroke-width="4" opacity="0.6" />
+  <rect x="24" y="24" width="464" height="464" rx="90" fill="none" stroke="#A855F7" stroke-width="1.5" opacity="0.3" />
+
+  <!-- Badass Geometric Cyber Wings (Left Wing) -->
+  <g filter="url(#neonGlow)">
+    <path d="M 256,220 L 110,130 L 70,185 L 170,245 L 85,275 L 115,325 L 210,295 L 140,365 L 185,395 L 256,310 Z"
+          fill="url(#chromeWing)" opacity="0.9" />
+    <!-- Left Wing Accent Bevel -->
+    <path d="M 256,220 L 110,130 L 170,245 Z" fill="#F3E8FF" opacity="0.35" />
+    <path d="M 170,245 L 85,275 L 210,295 Z" fill="#D8B4FE" opacity="0.25" />
+
+    <!-- Badass Geometric Cyber Wings (Right Wing - Symmetrical Mirror) -->
+    <path d="M 256,220 L 402,130 L 442,185 L 342,245 L 427,275 L 397,325 L 302,295 L 372,365 L 327,395 L 256,310 Z"
+          fill="url(#chromeWing)" opacity="0.9" />
+    <!-- Right Wing Accent Bevel -->
+    <path d="M 256,220 L 402,130 L 342,245 Z" fill="#F3E8FF" opacity="0.35" />
+    <path d="M 342,245 L 427,275 L 302,295 Z" fill="#D8B4FE" opacity="0.25" />
+
+    <!-- Central Diamond Automotive Mirror Shield -->
+    <polygon points="256,95 345,230 256,415 167,230"
+             fill="#140624" stroke="url(#lavenderMetal)" stroke-width="8" />
+
+    <!-- Inner Core Screen Projection Prism -->
+    <polygon points="256,128 320,230 256,375 192,230"
+             fill="url(#lavenderMetal)" opacity="0.85" />
+
+    <!-- Facet Glass Reflections -->
+    <polygon points="256,128 320,230 256,230" fill="#FFFFFF" opacity="0.45" />
+    <polygon points="256,230 320,230 256,375" fill="#C084FC" opacity="0.4" />
+    <polygon points="256,128 192,230 256,230" fill="#E9D5FF" opacity="0.2" />
+
+    <!-- Stylized Futuristic "M" (Mirror) Emblem Crest in Lavender Chrome -->
+    <path d="M 226,200 L 256,242 L 286,200 L 300,265 L 282,265 L 270,225 L 256,246 L 242,225 L 230,265 L 212,265 Z"
+          fill="#FAF5FF" />
+          
+    <!-- Cyber Speed Chevron Accents -->
+    <polyline points="236,432 256,456 276,432" fill="none" stroke="#D8B4FE" stroke-width="4" stroke-linecap="round" />
+    <polyline points="242,450 256,466 270,450" fill="none" stroke="#C084FC" stroke-width="3" stroke-linecap="round" />
+  </g>
+</svg>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.fourgeailabs.automirror">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Android Auto hardware features declaration -->
+    <uses-feature
+        android:name="android.hardware.type.automotive"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.car.templates_host"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher"
+        android:supportsRtl="true"
+        android:hardwareAccelerated="true"
+        android:theme="@style/Theme.AutoMirror">
+
+        <!-- Android Auto Application Metadata & Motion Exemption -->
+        <meta-data
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc" />
+        <meta-data
+            android:name="androidx.car.app.minCarApiLevel"
+            android:value="1" />
+        <!-- Crucial: Flag declaring app is driving-optimized and exempt from in-motion parking blocks -->
+        <meta-data
+            android:name="distractionOptimized"
+            android:value="true" />
+
+        <!-- Phone Companion & Clean 1-Tap Trigger Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@style/Theme.AutoMirror">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Android Auto CarAppService categorized as NAVIGATION for full-motion bypass -->
+        <service
+            android:name=".AutoMirrorAppService"
+            android:exported="true"
+            android:label="@string/car_app_name">
+            <intent-filter>
+                <action android:name="androidx.car.app.CarAppService" />
+                <!-- Navigation category permits continuous real-time video surface while vehicle is driving -->
+                <category android:name="androidx.car.app.category.NAVIGATION" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.car.app.category.NAVIGATION"
+                android:value="true" />
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+        </service>
+
+        <!-- MediaProjection Live Screen Streaming Foreground Service -->
+        <service
+            android:name=".MirrorProjectionService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+
+        <!-- Optional Touch Input Forwarding via Accessibility Service -->
+        <service
+            android:name=".TouchAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- Receiver to detect Android Auto vehicle connection state -->
+        <receiver
+            android:name=".AutoConnectionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.car.CAR_CONNECTION_STATE" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

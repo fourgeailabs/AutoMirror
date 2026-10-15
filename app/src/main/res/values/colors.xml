@@ -1,0 +1,14 @@
+<resources>
+    <!-- Badass Feminine Lavender Palette for AutoMirror -->
+    <color name="primary">#C084FC</color>
+    <color name="primary_light">#E9D5FF</color>
+    <color name="primary_dark">#7E22CE</color>
+    <color name="accent_lavender">#D8B4FE</color>
+    <color name="accent_violet">#9333EA</color>
+    <color name="background_dark">#090414</color>
+    <color name="surface_dark">#150B24</color>
+    <color name="surface_card">#1F1133</color>
+    <color name="text_primary">#FAF5FF</color>
+    <color name="text_secondary">#C4B5FD</color>
+    <color name="text_muted">#7C6F93</color>
+</resources>
